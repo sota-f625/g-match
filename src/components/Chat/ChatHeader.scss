@@ -1,0 +1,40 @@
+.chatHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 10px;
+
+  .chatHeaderLeft {
+    padding-left: 15px;
+
+    .chatHeaderHash {
+      color: rgb(146, 107, 163);
+      padding-right: 7px;
+    }
+
+    h3 {
+      color: rgb(146, 107, 163);
+    }
+  }
+
+  .chatHeaderRight {
+    padding-right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgb(146, 107, 163);
+
+    .chatHeaderSearch {
+      display: flex;
+      align-items: center;
+      background-color: rgb(235, 217, 242);
+      padding: 3px;
+      border-radius: 3px;
+    }
+
+    .MuiSvgIcon-root {
+      cursor: pointer;
+    }
+  }
+}
