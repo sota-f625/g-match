@@ -3,10 +3,10 @@ import './App.scss';
 import Sidebar from './components/Sidebar/Sidebar';
 import Chat from './components/Chat/Chat';
 import Login from './components/login/Login';
+import { useAppSelector } from './app/hooks';
 
 function App() {
-  // const user = userSelector((state =>) state.user.user);
-const user = null;
+  const user = useAppSelector((state) => state.user);
 
   return (
     <div className="App">
