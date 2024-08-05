@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import './App.scss';
 import Sidebar from './components/Sidebar/Sidebar';
 import Chat from './components/Chat/Chat';
-import Login, { login, logout } from './components/login/Login';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { auth } from './firebase';
+import Login from './components/login/Login';
+import { login, logout } from './features/userSlice';
 
 function App() {
   const user = useAppSelector((state) => state.user);
-  console.log(user);
+  // console.log(user);
 
   const dispatch = useAppDispatch();
 
