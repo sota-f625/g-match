@@ -3,6 +3,7 @@ import "./Login.scss"
 import { Button } from "@mui/material"
 import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../../firebase'
+import { userSlice } from '../../features/userSlice'
 
 const Login = () => {
 
@@ -22,4 +23,5 @@ const Login = () => {
   )
 }
 
+export const { login, logout } = userSlice.actions;
 export default Login
