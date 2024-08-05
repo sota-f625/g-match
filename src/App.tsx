@@ -8,6 +8,7 @@ import { auth } from './firebase';
 
 function App() {
   const user = useAppSelector((state) => state.user);
+  console.log(user);
 
   const dispatch = useAppDispatch();
 

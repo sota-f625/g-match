@@ -6,6 +6,7 @@ import SidebarChannel from './SidebarChannel';
 import MicIcon from '@mui/icons-material/Mic';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { auth } from '../../firebase';
 
 const Sidebar = () => {
   return (
@@ -43,7 +44,7 @@ const Sidebar = () => {
 
           <div className="sidebarFooter">
             <div className="sidebarAccount">
-              <img src="./test.png" alt="" />
+              <img src="./test.png" alt="" onClick={() => auth.signOut()} />
               <div className="accountName">
                 <h4>testUser</h4>
                 <span>#0001</span>
