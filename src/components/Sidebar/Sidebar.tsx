@@ -8,19 +8,26 @@ import HeadphonesIcon from '@mui/icons-material/Headphones';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { auth, db } from '../../firebase';
 import { useAppSelector } from '../../app/hooks';
-import { collection, query } from 'firebase/firestore/lite';
-import { onSnapshot } from "firebase/firestore";
+import { collection, query, onSnapshot } from "firebase/firestore";
 
 const Sidebar = () => {
   const user = useAppSelector((state) => state.user);
 
-  const q = query(collection(db, "channels"))
+  const q = query(collection(db, "channels"));
 
   useEffect(() => {
-    onSnapshot(q, (querySnapshot) =>{
-      const channelsResults = [];
-      querySnapshot.docs.forEach((doc) => console.log(doc));
+    const channelsCollection = collection(db, "channels");
+    const q = query(channelsCollection);
+  
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const channelsResults: any[] = [];
+      querySnapshot.docs.forEach((doc) => {
+        channelsResults.push(doc.data());
+      });
+      console.log(channelsResults);
     });
+  
+    return () => unsubscribe();
   }, []);
 
 
