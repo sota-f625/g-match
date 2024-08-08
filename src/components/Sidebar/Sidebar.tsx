@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Sidebar.scss";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddIcon from '@mui/icons-material/Add';
@@ -8,27 +8,30 @@ import HeadphonesIcon from '@mui/icons-material/Headphones';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { auth, db } from '../../firebase';
 import { useAppSelector } from '../../app/hooks';
-import { collection, query, onSnapshot } from "firebase/firestore";
+import { collection, query, onSnapshot, DocumentData } from "firebase/firestore";
+
+interface Channel {
+  id: string,
+  channel: DocumentData;
+}
 
 const Sidebar = () => {
-  const user = useAppSelector((state) => state.user);
+  const [channels, setChannels] = useState<Channel[]>([]);
 
+  const user = useAppSelector((state) => state.user);
   const q = query(collection(db, "channels"));
 
   useEffect(() => {
-    const channelsCollection = collection(db, "channels");
-    const q = query(channelsCollection);
-  
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const channelsResults: any[] = [];
-      querySnapshot.docs.forEach((doc) => {
-        channelsResults.push(doc.data());
-      });
-      console.log(channelsResults);
+    onSnapshot(q, (querySnapshot) =>{
+      const channelsResults: Channel[] = [];
+      querySnapshot.docs.forEach((doc) => channelsResults.push({
+        id: doc.id,
+        channel: doc.data(),
+      }));
+      setChannels(channelsResults);
     });
-  
-    return () => unsubscribe();
   }, []);
+
 
 
   return (
@@ -59,9 +62,9 @@ const Sidebar = () => {
             <AddIcon className="sidebarAddIcon" />
           </div>
           <div className="sidebarChannelList">
-            <SidebarChannel />
-            <SidebarChannel />
-            <SidebarChannel />
+            {channels.map((channel) => (
+              <SidebarChannel channel={channel} id={channel.id} key={channel.id} />
+            ))}
           </div>
 
           <div className="sidebarFooter">
