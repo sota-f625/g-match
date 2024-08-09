@@ -8,31 +8,12 @@ import HeadphonesIcon from '@mui/icons-material/Headphones';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { auth, db } from '../../firebase';
 import { useAppSelector } from '../../app/hooks';
-import { collection, query, onSnapshot, DocumentData } from "firebase/firestore";
+import useCollection from '../../hooks/useCollection';
 
-interface Channel {
-  id: string,
-  channel: DocumentData;
-}
 
 const Sidebar = () => {
-  const [channels, setChannels] = useState<Channel[]>([]);
-
   const user = useAppSelector((state) => state.user);
-  const q = query(collection(db, "channels"));
-
-  useEffect(() => {
-    onSnapshot(q, (querySnapshot) =>{
-      const channelsResults: Channel[] = [];
-      querySnapshot.docs.forEach((doc) => channelsResults.push({
-        id: doc.id,
-        channel: doc.data(),
-      }));
-      setChannels(channelsResults);
-    });
-  }, []);
-
-
+  const { documents: channels} = useCollection("channels");
 
   return (
     <div className="sidebar">
