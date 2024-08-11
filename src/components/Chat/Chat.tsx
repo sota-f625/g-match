@@ -13,6 +13,10 @@ const Chat = () => {
 
   const channelName = useAppSelector((state) => state.channel.channelName);
 
+  const sendMessage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="chat">
       {/* chatHeader */}
@@ -29,7 +33,7 @@ const Chat = () => {
         <AddCircleOutlineIcon />
         <form>
           <input type="text" placeholder='#メッセージを送信' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputText(e.target.value)}/>
-          <button type ="submit" className="chatInputButton">
+          <button type ="submit" className="chatInputButton" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => sendMessage(e)}>
             send
           </button>
         </form>
