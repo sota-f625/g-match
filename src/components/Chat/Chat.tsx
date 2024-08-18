@@ -7,7 +7,7 @@ import GifIcon from '@mui/icons-material/Gif';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import ChatMessage from './ChatMessage ';
 import { useAppSelector } from '../../app/hooks';
-import { addDoc, collection, CollectionReference, DocumentData, onSnapshot, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { addDoc, collection, CollectionReference, DocumentData, onSnapshot, orderBy, query, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 interface Messages {
@@ -34,7 +34,9 @@ const Chat = () => {
 
     let collectionRef = collection(db, "channels", String(channelId), "messages");
 
-    onSnapshot(collectionRef, (snapshot) => {
+    const collectionRefOrderBy = query(collectionRef, orderBy("timestamp", "asc"));
+
+    onSnapshot(collectionRefOrderBy, (snapshot) => {
       let results: Messages[] = [];
       snapshot.docs.forEach((doc) => {
         results.push({
@@ -54,6 +56,7 @@ const Chat = () => {
     const collectionRef: CollectionReference<DocumentData> = collection(db, "channels", String(channelId), "messages");
 
     await addDoc(collectionRef, { message: inputText, timestamp: serverTimestamp(), user: user,});
+    setInputText("");
   };
 
   return (
@@ -70,7 +73,11 @@ const Chat = () => {
       <div className="chatInput">
         <AddCircleOutlineIcon />
         <form>
-          <input type="text" placeholder='#メッセージを送信' onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputText(e.target.value)}/>
+          <input type="text" placeholder='#メッセージを送信' onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+            setInputText(e.target.value)
+            }
+            value={inputText}
+          />
           <button type ="submit" className="chatInputButton" onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => sendMessage(e)}>
             send
           </button>
