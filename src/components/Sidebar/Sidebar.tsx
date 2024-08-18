@@ -49,7 +49,7 @@ const Sidebar = () => {
           <div className="sidebarChannelsHeader">
             <div className="sidebarHeader">
               <ExpandMoreIcon/>
-              <h4>仮置きチャンネル</h4>
+              <h4>テキストチャンネル</h4>
             </div>
             <AddIcon className="sidebarAddIcon"  onClick={() => addChannel()}/>
           </div>
