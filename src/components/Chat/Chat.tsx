@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import "./Chat.scss"
 import ChatHeader from './ChatHeader'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -29,6 +29,7 @@ const Chat = () => {
   const channelId = useAppSelector((state) => state.channel.channelId);
   const user = useAppSelector((state) => state.user.user);
 
+  const chatMessageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
 
@@ -49,6 +50,11 @@ const Chat = () => {
     });
   }, [channelId]);
 
+  useEffect(() => {
+    if (chatMessageRef.current) {
+      chatMessageRef.current.scrollTop = chatMessageRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const sendMessage = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -64,7 +70,7 @@ const Chat = () => {
       {/* chatHeader */}
       <ChatHeader channelName={channelName} />
       {/* chatMessage */}
-      <div className="chatMessage">
+      <div className="chatMessage" ref={chatMessageRef}>
         {messages.map((message, index) => (
           <ChatMessage key={index} message={message.message} timestamp={message.timestamp} user={message.user}/>
         ))}
